@@ -1,11 +1,11 @@
 package com.tsb.banking.service;
 
 import com.tsb.banking.api.dto.AccountDto;
-import com.tsb.banking.exception.NotFound;
+import com.tsb.banking.exception.NotFoundException;
 import com.tsb.banking.model.Account;
 import com.tsb.banking.repo.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -24,6 +24,6 @@ public class AccountService {
   }
 
   public Account requireAccount(Long id) {
-    return accountRepository.findById(id).orElseThrow(() -> new NotFound("Account " + id + " not found"));
+    return accountRepository.findById(id).orElseThrow(() -> new NotFoundException("Account " + id + " not found"));
   }
 }

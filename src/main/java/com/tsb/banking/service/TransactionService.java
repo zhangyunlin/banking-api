@@ -17,6 +17,15 @@ public class TransactionService {
     this.transactionRepository = transactionRepository;
   }
 
+  /**
+   * Get paginated transactions for an account within an optional time range
+   * @param accountId the account ID
+   * @param from optional start time (inclusive), null means from the epoch
+   * @param to optional end time (inclusive), null means now
+   * @param page 0-based page index
+   * @param size page size
+   * @return
+   */
   public Page<TransactionDto> transactionsForAccount(Long accountId, Instant from, Instant to, int page, int size) {
     Instant f = (from == null) ? Instant.EPOCH : from;
     Instant t = (to == null) ? Instant.now() : to;

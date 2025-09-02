@@ -23,6 +23,7 @@ public class AccountService {
         .toList();
   }
 
+  // throw NotFoundException if not found
   public Account requireAccount(Long id) {
     return accountRepository.findById(id).orElseThrow(() -> new NotFoundException("Account " + id + " not found"));
   }

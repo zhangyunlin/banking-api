@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author zhangyunlin
+ *
+ * Make a transfer between two accounts belong to a customer
  */
 @RestController
 @RequestMapping("/transfers")

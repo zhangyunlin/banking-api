@@ -17,6 +17,11 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HexFormat;
 
+/**
+ * @author zhangyunlin
+ *
+ * Service for handling OTP (One-Time Password) operations like issuing and confirming OTPs
+ */
 @Service
 public class OtpService {
 
@@ -38,6 +43,7 @@ public class OtpService {
         this.maxRequestsPerHour = maxRequestsPerHour;
     }
 
+    // Simple SHA-256 hash function for OTP codes
     private static String sha256(String s) {
         try {
             var md = MessageDigest.getInstance("SHA-256");
@@ -47,12 +53,19 @@ public class OtpService {
         }
     }
 
+    // Generate a random 6-digit code
     private static String generateCode() {
         SecureRandom r = new SecureRandom();
-        int code = 100000 + r.nextInt(900000); // 6 digits
+        // 6 digits code
+        int code = 100000 + r.nextInt(900000);
         return Integer.toString(code);
     }
 
+    /**
+     * Request a password reset OTP to be sent via SMS
+     * @param identifier
+     * @return
+     */
     @Transactional
     public String requestPasswordReset(String identifier) {
         User user = userRepo.findByIdentifier(identifier)

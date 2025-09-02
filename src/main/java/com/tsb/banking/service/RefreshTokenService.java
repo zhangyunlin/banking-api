@@ -22,7 +22,7 @@ public class RefreshTokenService {
 
     public record Pair(String accessToken, String refreshToken, long expiresInSeconds) {}
 
-    /** On login: issue access + refresh and persist the refresh by JTI */
+    // On login: issue access + refresh and persist the refresh by JTI
     @Transactional
     public Pair issueForUser(String username) {
         User u = users.findByUsernameIgnoreCase(username).orElseThrow();
@@ -43,7 +43,7 @@ public class RefreshTokenService {
         return new Pair(access, refresh, jwt.getAccessTtlMinutes() * 60);
     }
 
-    /** On refresh: rotate refresh token (current -> revoked, new pair issued) */
+    // On refresh: rotate refresh token
     @Transactional
     public Pair rotate(String refreshToken) {
         if (!jwt.isRefreshToken(refreshToken)) {
@@ -59,6 +59,7 @@ public class RefreshTokenService {
         repo.save(current);
 
         String username = jwt.getUsername(refreshToken);
+
         // creates the replacement
         Pair pair = issueForUser(username);
         current.setReplacedByJti(jwt.getJti(pair.refreshToken()));

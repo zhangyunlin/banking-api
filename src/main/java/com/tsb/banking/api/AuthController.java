@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * @author zhangyunlin
+ *
+ * Handles authentication: login, token refresh, password reset via OTP
+ */
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -53,7 +59,6 @@ public class AuthController {
 
     public record ConfirmResetDto(@NotBlank String identifier, @NotBlank String code,
                                   @NotBlank String newPassword) {}
-
 
     @Operation(summary = "Confirm password reset with OTP")
     @PostMapping("/confirm-reset")

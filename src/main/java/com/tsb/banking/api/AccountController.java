@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 
+/**
+ * @author zhangyunlin
+ *
+ * List transactions for an account, with optional from/to date range and paging
+ */
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
@@ -31,7 +36,8 @@ public class AccountController {
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "20") int size) {
 
-    accountService.requireAccount(accountId); // ensure 404 if not exists
+    // ensure no 404 returned if account not found
+    accountService.requireAccount(accountId);
     return txnService.transactionsForAccount(accountId, from, to, page, size);
   }
 }

@@ -17,9 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HexFormat;
 
-/**
- * @author zhangyunlin
- */
+
 @Service
 public class TransferService {
 
@@ -45,12 +43,12 @@ public class TransferService {
     @Transactional
     public TransferResponseDto transfer(TransferRequestDto request) {
 
-        // check accounts
+        // Check accounts
         if (request.fromAccountId().equals(request.toAccountId())) {
             throw new BusinessException("TRANSFER_SAME_ACCOUNT", "fromAccount and toAccount must be different");
         }
 
-        // check transfer amount precision
+        // Check transfer amount precision
         if (request.amount().scale() > 2) {
             throw new BusinessException("AMOUNT_PRECISION", "amount must have at most 2 decimal places");
         }
@@ -105,7 +103,7 @@ public class TransferService {
         accountRepo.save(from);
         accountRepo.save(to);
 
-        // Create double-entry txns
+        // Create double-entry transactions
         Transaction debit = new Transaction();
         debit.setAccount(from);
         debit.setType("DEBIT");

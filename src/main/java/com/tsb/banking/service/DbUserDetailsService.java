@@ -34,6 +34,7 @@ public class DbUserDetailsService implements UserDetailsService {
                 .map(SimpleGrantedAuthority::new).toList();
         return org.springframework.security.core.userdetails.User
                 .withUsername(u.getUsername())
+                //  use password hash, like BCrypt hash
                 .password(u.getPasswordHash())
                 .authorities(auths)
                 .accountLocked(false).accountExpired(false).credentialsExpired(false).disabled(false)

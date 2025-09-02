@@ -6,6 +6,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+/**
+ * @author zhangyunlin
+ *
+ * Show all accounts for a customer
+ */
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {

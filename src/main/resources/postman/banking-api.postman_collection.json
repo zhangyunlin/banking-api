@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "8850e528-02aa-49bc-a295-22f65347c1eb",
+		"name": "banking-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7378893"
+	},
+	"item": [
+		{
+			"name": "get all accounts",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get all transactions",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "transfer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerId\": 1,\r\n    \"fromAccountId\": 1,\r\n    \"toAccountId\": 4,\r\n    \"amount\": \"100.00\",\r\n    \"currency\": \"NZD\",\r\n    \"memo\": \"Move to savings\",\r\n    \"idempotencyKey\": \"8d5e7aab-3d5e-4f1e-9a5a-111111121111\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transfers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transfers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "request otp",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "confirm reset pwd",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"identifier\":\"alice\",\"code\":\"917256\",\"newPassword\":\"NewPassword123\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/confirm-reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"confirm-reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login jwt",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"alice\",\"password\":\"Password123\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"refreshToken\":\"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjZTc1OTcyMi01OTJjLTQ1OWMtYjQ3OC0yMTU2ZGVlYzM3NGQiLCJzdWIiOiJib2IiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTc1Njg1MDY0OSwiZXhwIjoxNzU3NDU1NDQ5LCJpc3MiOiJ0c2ItYmFuayJ9.GWf6vT5roGKUyRwze-V1ozvAQqdoimkAqA69Epxp86U\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/refresh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

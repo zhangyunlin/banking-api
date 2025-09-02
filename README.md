@@ -90,6 +90,34 @@ echo "$NEW" | jq
 # Logout (revoke access token by JTI)
 curl -X POST http://localhost:8080/auth/logout \
   -H "Authorization: Bearer $ACCESS"
+  
+  # Login
+POST /auth/login
+{"username":"alice","password":"Password123"}
+
+# Save accessToken (AT) & refreshToken (RT).
+
+# Use AT on a protected endpoint
+GET /customers/1/accounts
+Authorization: Bearer <AT>
+
+# Refresh (rotation)
+POST /auth/refresh
+{"refreshToken":"<RT>"}
+
+# You get a new AT and a NEW RT; the old RT is revoked.
+
+Quick Postman flow
+
+POST /auth/login → copy accessToken, refreshToken
+
+Use Authorization: Bearer <accessToken> on a protected endpoint
+
+POST /auth/refresh with body {"refreshToken":"<refreshToken>"} → get a new pair
+
+Old refresh token is revoked; using it again should return 401.
+
+
 
 
 ## Tech

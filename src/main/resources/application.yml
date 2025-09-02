@@ -2,20 +2,23 @@ spring:
   datasource:
     url: jdbc:h2:mem:bankdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
     username: sa
-    password:
+    password: ""           # or omit this line
     driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate   # let Flyway manage schema; use 'update' only if you disable Flyway
     show-sql: true
     properties:
-        hibernate:
-            format_sql: true
+      hibernate:
+        format_sql: true
     open-in-view: false
+
   h2:
     console:
       enabled: true
       path: /h2-console
+
   flyway:
     enabled: true
 
@@ -25,3 +28,15 @@ server:
 springdoc:
   swagger-ui:
     path: /swagger
+
+app:
+  security:
+    jwt:
+      secret: "N/RR5l2MnRPl2xZN+s81COg42ah7BPnXLEC5QVB1uR2Cz8qjUK1CGT6zTVhWzFzE"
+      issuer: "tsb-bank"
+      access-ttl-minutes: 15
+      refresh-ttl-days: 7
+
+  otp:
+    ttl-minutes: 10
+    max-req-per-hour: 5

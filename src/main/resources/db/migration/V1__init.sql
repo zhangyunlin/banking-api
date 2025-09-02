@@ -26,7 +26,7 @@ create table transactions
     account_id   bigint         not null,
     type         varchar(10)    not null, -- 'DEBIT' or 'CREDIT'
     amount       numeric(19, 2) not null,
-    currency     char(3)        not null,
+    currency     varchar(3)        not null,
     reference    varchar(128),
     counterparty varchar(64),
     created_at   timestamp      not null default current_timestamp,

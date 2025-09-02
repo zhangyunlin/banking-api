@@ -3,7 +3,6 @@ package com.tsb.banking.service;
 import com.tsb.banking.exception.BusinessException;
 import com.tsb.banking.model.User;
 import com.tsb.banking.repo.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class PasswordService {
 
     private final UserRepository userRepo;
-    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder encoder;
 
-    public PasswordService(UserRepository userRepo) {
+    public PasswordService(UserRepository userRepo, PasswordEncoder encoder) {
+        this.encoder = encoder;
         this.userRepo = userRepo;
     }
 

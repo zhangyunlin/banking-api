@@ -55,6 +55,42 @@ curl -X POST http://localhost:8080/auth/confirm-reset \
 # => 200 OK "Password reset successful"
 ``` 
 
+## JWT Security (login + protect endpoints)
+
+- Login: `POST /auth/login` → returns `{ accessToken, tokenType, expiresInSeconds }`
+- Protected endpoints require header: `Authorization: Bearer <accessToken>`
+
+Example:
+```bash
+# Login (seed user: alice / Password123)
+curl -s -X POST http://localhost:8080/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"alice","password":"Password123"}'
+
+# Use token to call protected API
+curl -H "Authorization: Bearer <token>" http://localhost:8080/customers/1/accounts
+
+# Login (seed user: alice / Password123)
+LOGIN=$(curl -s -X POST http://localhost:8080/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"alice","password":"Password123"}')
+
+ACCESS=$(echo "$LOGIN"  | jq -r .accessToken)
+REFRESH=$(echo "$LOGIN" | jq -r .refreshToken)
+
+# Use access token
+curl -H "Authorization: Bearer $ACCESS" http://localhost:8080/customers/1/accounts
+
+# Refresh (rotation: old refresh becomes revoked)
+NEW=$(curl -s -X POST http://localhost:8080/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d "{\"refreshToken\":\"$REFRESH\"}")
+echo "$NEW" | jq
+
+# Logout (revoke access token by JTI)
+curl -X POST http://localhost:8080/auth/logout \
+  -H "Authorization: Bearer $ACCESS"
+
 
 ## Tech
 - Java 17, Spring Boot 3.3, Spring Data JPA, H2 (dev), Flyway, springdoc-openapi

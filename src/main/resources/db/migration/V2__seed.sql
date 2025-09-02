@@ -23,3 +23,10 @@ insert into users (username, email, phone, password_hash, roles, customer_id)
 values ('alice', 'alice@example.com', '+64-21-111111', '{bcrypt}$2a$10$4iFE/6hWQpFkVnjmvtUw8u5oC1o1c8QBGg9yR1F5s4hLxg8Gq8FhK', 'ROLE_USER', 1),
        ('bob', 'bob@example.com', '+64-21-111111', '{bcrypt}$2a$10$4iFE/6hWQpFkVnjmvtUw8u5oC1o1c8QBGg9yR1F5s4hLxg8Gq8FhK', 'ROLE_USER', 2);
 -- The above hash is bcrypt of 'Password123' (for local testing only).
+
+update users
+set password_hash = '{bcrypt}$2a$10$TSCpuU6JKwsXJQmled1FIeLgHMrmJzfjWmMqNK27GvmYSb/5pEvJi'
+where upper(username) = upper('alice');
+update users
+set password_hash = '{bcrypt}$2a$10$TSCpuU6JKwsXJQmled1FIeLgHMrmJzfjWmMqNK27GvmYSb/5pEvJi'
+where upper(username) = upper('bob');

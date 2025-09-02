@@ -40,3 +40,7 @@ app:
   otp:
     ttl-minutes: 10
     max-req-per-hour: 5
+
+logging:
+  level:
+    org.springframework.security: DEBUG

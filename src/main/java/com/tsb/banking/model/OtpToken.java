@@ -34,21 +34,55 @@ public class OtpToken {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
 
-    public Long getId() { return id; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-    public String getDestination() { return destination; }
-    public void setDestination(String destination) { this.destination = destination; }
-    public String getCodeHash() { return codeHash; }
-    public void setCodeHash(String codeHash) { this.codeHash = codeHash; }
-    public String getPurpose() { return purpose; }
-    public void setPurpose(String purpose) { this.purpose = purpose; }
-    public Instant getExpiresAt() { return expiresAt; }
-    public void setExpiresAt(Instant expiresAt) { this.expiresAt = expiresAt; }
-    public boolean isConsumed() { return consumed; }
-    public void setConsumed(boolean consumed) { this.consumed = consumed; }
-    public int getAttempts() { return attempts; }
-    public void setAttempts(int attempts) { this.attempts = attempts; }
-    public Instant getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Long getId() {
+        return id;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public String getDestination() {
+        return destination;
+    }
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+    public String getCodeHash() {
+        return codeHash;
+    }
+    public void setCodeHash(String codeHash) {
+        this.codeHash = codeHash;
+    }
+    public String getPurpose() {
+        return purpose;
+    }
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+    public Instant getExpiresAt() {
+        return expiresAt;
+    }
+    public void setExpiresAt(Instant expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+    public boolean isConsumed() {
+        return consumed;
+    }
+    public void setConsumed(boolean consumed) {
+        this.consumed = consumed;
+    }
+    public int getAttempts() {
+        return attempts;
+    }
+    public void setAttempts(int attempts) {
+        this.attempts = attempts;
+    }
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
 }

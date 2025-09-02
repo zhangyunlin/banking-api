@@ -13,6 +13,11 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *  @author zhangyunlin
+ *
+ *  Service for generating and parsing JWT tokens
+ */
 @Service
 public class JwtService {
 

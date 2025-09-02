@@ -1,4 +1,4 @@
-package com.tsb.banking.security;
+package com.tsb.banking.service;
 
 import com.tsb.banking.model.User;
 import com.tsb.banking.repo.UserRepository;
@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author zhangyunlin
+ *
+ *  UserDetailsService implementation that loads user details from the database
+ */
 @Service
 public class DbUserDetailsService implements UserDetailsService {
 

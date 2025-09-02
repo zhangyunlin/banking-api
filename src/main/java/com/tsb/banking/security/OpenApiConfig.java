@@ -8,6 +8,11 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ *  @author zhangyunlin
+ *
+ *  Configure OpenAPI (Swagger) to include JWT Bearer token authentication
+ */
 @Configuration
 public class OpenApiConfig {
     @Bean

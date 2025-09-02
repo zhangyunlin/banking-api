@@ -37,6 +37,16 @@ curl "http://localhost:8080/accounts/1/transactions?page=0&size=10"
 }
 ```
 
+## Password Reset with OTP (Requirement #5)
+
+**Request OTP**
+```bash
+curl -X POST http://localhost:8080/auth/request-reset \
+  -H "Content-Type: application/json" \
+  -d '{"identifier":"alice"}'
+# => {"sentToMasked":"+6****11"}
+# OTP is logged in app logs (mock SMS)
+
 ## Tech
 - Java 17, Spring Boot 3.3, Spring Data JPA, H2 (dev), Flyway, springdoc-openapi
 

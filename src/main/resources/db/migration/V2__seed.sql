@@ -16,3 +16,10 @@ insert into transactions (account_id, type, amount, currency, reference, counter
  (4, 'CREDIT', 1000.00, 'NZD', 'Initial deposit', 'CASH', current_timestamp - 5 day),
  (4, 'DEBIT',   200.00, 'NZD', 'Groceries',       'Paknsave', current_timestamp - 3 day),
  (4, 'DEBIT',   100.00, 'NZD', 'Fuel',            'Caltex Energy', current_timestamp - 1 day);;
+
+
+-- Seed a demo user linked to Alice (customer_id=1). Password hash will be updated upon reset.
+insert into users (username, email, phone, password_hash, roles, customer_id)
+values ('alice', 'alice@example.com', '+64-21-111111', '{bcrypt}$2a$10$4iFE/6hWQpFkVnjmvtUw8u5oC1o1c8QBGg9yR1F5s4hLxg8Gq8FhK', 'ROLE_USER', 1),
+       ('bob', 'bob@example.com', '+64-21-111111', '{bcrypt}$2a$10$4iFE/6hWQpFkVnjmvtUw8u5oC1o1c8QBGg9yR1F5s4hLxg8Gq8FhK', 'ROLE_USER', 2);
+-- The above hash is bcrypt of 'Password123' (for local testing only).

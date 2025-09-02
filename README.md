@@ -1,4 +1,4 @@
-# TSB Banking API (Starter - Requirements 1~3)
+# TSB Banking API
 
 Spring Boot 3.x demo implementing:
 1. REST API skeleton
@@ -46,6 +46,15 @@ curl -X POST http://localhost:8080/auth/request-reset \
   -d '{"identifier":"alice"}'
 # => {"sentToMasked":"+6****11"}
 # OTP is logged in app logs (mock SMS)
+```
+**Reset Password**
+```bash
+curl -X POST http://localhost:8080/auth/confirm-reset \
+  -H "Content-Type: application/json" \
+  -d '{"identifier":"alice","code":"213836","newPassword":"Password123"}'
+# => 200 OK "Password reset successful"
+``` 
+
 
 ## Tech
 - Java 17, Spring Boot 3.3, Spring Data JPA, H2 (dev), Flyway, springdoc-openapi

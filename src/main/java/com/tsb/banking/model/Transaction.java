@@ -30,20 +30,52 @@ public class Transaction {
   @Column(name = "created_at", nullable = false)
   private Instant createdAt = Instant.now();
 
-  public Long getId() { return id; }
-  public void setId(Long id) { this.id = id; }
-  public Account getAccount() { return account; }
-  public void setAccount(Account account) { this.account = account; }
-  public String getType() { return type; }
-  public void setType(String type) { this.type = type; }
-  public BigDecimal getAmount() { return amount; }
-  public void setAmount(BigDecimal amount) { this.amount = amount; }
-  public String getCurrency() { return currency; }
-  public void setCurrency(String currency) { this.currency = currency; }
-  public String getReference() { return reference; }
-  public void setReference(String reference) { this.reference = reference; }
-  public String getCounterparty() { return counterparty; }
-  public void setCounterparty(String counterparty) { this.counterparty = counterparty; }
-  public Instant getCreatedAt() { return createdAt; }
-  public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
+  }
+  public Account getAccount() {
+    return account;
+  }
+  public void setAccount(Account account) {
+    this.account = account;
+  }
+  public String getType() {
+    return type;
+  }
+  public void setType(String type) {
+    this.type = type;
+  }
+  public BigDecimal getAmount() {
+    return amount;
+  }
+  public void setAmount(BigDecimal amount)
+  { this.amount = amount;
+  }
+  public String getCurrency() {
+    return currency;
+  }
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+  public String getReference() {
+    return reference;
+  }
+  public void setReference(String reference) {
+    this.reference = reference;
+  }
+  public String getCounterparty() {
+    return counterparty;
+  }
+  public void setCounterparty(String counterparty) {
+    this.counterparty = counterparty;
+  }
+  public Instant getCreatedAt() {
+    return createdAt;
+  }
+  public void setCreatedAt(Instant createdAt) {
+    this.createdAt = createdAt;
+  }
 }

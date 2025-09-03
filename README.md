@@ -29,6 +29,8 @@ open http://localhost:8080/h2-console   # JDBC URL: jdbc:h2:mem:bankdb, user: sa
 
 **Seed user**: `alice / Password123` (bcrypt in seed or updated on first run)
 
+**Postman collection**: [banking-api.postman_collection.json](src%2Fmain%2Fresources%2Fpostman%2Fbanking-api.postman_collection.json)
+
 ---
 
 ## Authentication (JWT)
@@ -43,7 +45,7 @@ open http://localhost:8080/h2-console   # JDBC URL: jdbc:h2:mem:bankdb, user: sa
 
 ## Core endpoints
 
-### Auth
+### Auth(Requirement #4)
 
 #### `POST /auth/login`
 
@@ -120,21 +122,21 @@ Content-Type: application/json
 
 ---
 
-### Accounts
+### Accounts(Requirement #1)
 
 ```http
 GET /customers/{customerId}/accounts
 Authorization: Bearer <accessToken>
 ```
 
-### Transactions
+### Transactions(Requirement #2)
 
 ```http
 GET /accounts/{accountId}/transactions?from=2025-08-27&to=2025-09-03&page=0&size=10
 Authorization: Bearer <accessToken>
 ```
 
-### Transfers (Requirement #4)
+### Transfers (Requirement #3)
 
 ```http
 POST /transfers
@@ -156,23 +158,44 @@ Content-Type: application/json
 
 ### Password reset with OTP (Requirement #5)
 
-**Request OTP**
+#### Request OTP
 
-```bash
-curl -X POST http://localhost:8080/auth/request-reset \
-  -H "Content-Type: application/json" \
-  -d '{"identifier":"alice"}'
-# => {"sentToMasked":"+6****11"}  (mock SMS; OTP logged)
+```http
+POST /auth/request-reset
+Content-Type: application/json
+
+{
+  "identifier": "alice"   // username, email, or phone as supported
+}
 ```
 
-**Confirm reset**
+**Response 200**
 
-```bash
-curl -X POST http://localhost:8080/auth/confirm-reset \
-  -H "Content-Type: application/json" \
-  -d '{"identifier":"alice","code":"123456","newPassword":"Password123"}'
-# => 200 OK "Password reset successful"
+```json
+{ "sentToMasked": "+6****11" }  // OTP is logged (mock SMS)
 ```
+
+#### Confirm reset
+
+```http
+POST /auth/confirm-reset
+Content-Type: application/json
+
+{
+  "identifier": "alice",
+  "code": "123456",
+  "newPassword": "Password123"
+}
+```
+
+**Response 200**
+
+```
+Password reset successful
+```
+
+> Notes: OTP is single-use and time-bound (default 10 minutes). Multiple requests may be rate-limited. No Authorization header is required for these endpoints.
+
 
 ---
 

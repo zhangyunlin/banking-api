@@ -1,7 +1,3 @@
-Here’s a cleaned-up, interview-ready **README.md** you can drop into the repo.
-
----
-
 # TSB Banking API
 
 Spring Boot 3.x demo implementing a secure banking-style REST API with JWT auth, password reset via OTP, double-entry transfers, and idempotency.

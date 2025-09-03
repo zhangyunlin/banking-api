@@ -36,39 +36,89 @@ open http://localhost:8080/h2-console   # JDBC URL: jdbc:h2:mem:bankdb, user: sa
 * **Login:** `POST /auth/login` → `{ accessToken, refreshToken, tokenType, expiresInSeconds }`
 * **Use token:** add header `Authorization: Bearer <accessToken>` to protected endpoints
 * **Refresh:** `POST /auth/refresh` with `{ "refreshToken": "<token>" }` returns a **new pair**; the **old refresh** is revoked
-* **Logout:** `POST /auth/logout` (revoke current access token by JTI; optional blacklist table)
 
 > Access tokens are **stateless** and remain valid until expiration (e.g., 15 minutes). Refresh rotation revokes only the **refresh** token by default.
-
-### Curl / Postman flow
-
-```bash
-# Login
-LOGIN=$(curl -s -X POST http://localhost:8080/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"alice","password":"Password123"}')
-
-ACCESS=$(echo "$LOGIN"  | jq -r .accessToken)
-REFRESH=$(echo "$LOGIN" | jq -r .refreshToken)
-
-# Call a protected endpoint
-curl -H "Authorization: Bearer $ACCESS" \
-  http://localhost:8080/customers/1/accounts
-
-# Refresh (rotation: old RT becomes revoked)
-NEW=$(curl -s -X POST http://localhost:8080/auth/refresh \
-  -H "Content-Type: application/json" \
-  -d "{\"refreshToken\":\"$REFRESH\"}")
-echo "$NEW" | jq
-
-# Logout (optional AT blacklist)
-curl -X POST http://localhost:8080/auth/logout \
-  -H "Authorization: Bearer $ACCESS"
-```
 
 ---
 
 ## Core endpoints
+
+### Auth
+
+#### `POST /auth/login`
+
+Obtain **access** and **refresh** tokens.
+
+**Headers**
+
+```
+Content-Type: application/json
+```
+
+**Request**
+
+```json
+{
+  "username": "alice",
+  "password": "Password123"
+}
+```
+
+**Response 200**
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9...",
+  "tokenType": "Bearer",
+  "expiresInSeconds": 900
+}
+```
+
+**Errors**
+
+* `401 Unauthorized` – bad credentials
+* `400 Bad Request` – invalid body
+
+---
+
+#### `POST /auth/refresh`
+
+Exchange a valid **refresh** token for a **new access + refresh** pair (rotation).
+
+**Headers**
+
+```
+Content-Type: application/json
+```
+
+**Request**
+
+```json
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9..."
+}
+```
+
+**Response 200**
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9...",
+  "tokenType": "Bearer",
+  "expiresInSeconds": 900
+}
+```
+
+**Errors**
+
+* `401 Unauthorized` – invalid/expired/revoked refresh token
+* `400 Bad Request` – not a refresh token / malformed JSON
+
+> Note: Access tokens stay valid until their `exp` unless you implement an **access-token blacklist** (optional).
+
+---
 
 ### Accounts
 
@@ -139,7 +189,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: validate       # Flyway owns schema
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -162,20 +212,13 @@ springdoc:
 app:
   security:
     jwt:
-      secret: "REPLACE_WITH_BASE64_KEY"   # e.g., openssl rand -base64 48
+      secret: "REPLACE_WITH_BASE64_KEY"
       issuer: "tsb-bank"
       access-ttl-minutes: 15
       refresh-ttl-days: 7
 ```
 
-**Production profile (suggested):**
-
-* Use **PostgreSQL** datasource
-* Keep Flyway enabled; keep `ddl-auto: validate`
-* Externalize secrets via env vars:
-
-    * `APP_SECURITY_JWT_SECRET=...`
-    * `SPRING_DATASOURCE_URL=jdbc:postgresql://...`
+**Production profile (suggested):** use PostgreSQL; keep Flyway enabled and `ddl-auto: validate`; externalize secrets via env vars.
 
 ---
 
@@ -204,7 +247,7 @@ app:
 
     * `401`: missing/expired/invalid **access** token, or using a **refresh** token against APIs
     * `403`: CSRF (if re-enabled) or authorization rule mismatch
-    * H2 conflicts: the DB is **in-memory**; restart resets data
+    * H2 is **in-memory**; restart resets data
 
 ---
 
@@ -212,4 +255,11 @@ app:
 
 * (Optional) **Access-token blacklist** by JTI for instant AT revoke
 * Metrics / health endpoints (Actuator)
+* Logout endpoint
+* Dockerfile + Docker Compose
 * Testcontainers for Postgres integration tests
+
+
+---
+
+## **License:** No License (public domain)
